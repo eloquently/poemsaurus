@@ -24,6 +24,7 @@ end
 
 # write tests
 # write rhyme for candle
+# test git
 # refactor code
 # better pluralizer
 # later: rrr "seed", willie "seed", lime "seed", etc option to switch poem framework
