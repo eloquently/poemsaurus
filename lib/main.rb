@@ -4,7 +4,7 @@
 # Purpose: Use an API to generate randomized semi-sensical poetry
 #
 # Related files: main.rb poem.rb, word_list.rb
-# APIs used: http://thesaurus.altervista.org/
+# APIs used: http://thesaurus.altervista.org/ & RhymeBrain.com
 
 
 require_relative 'poem'
@@ -23,8 +23,6 @@ while true
 end
 
 # write tests
-# write rhyme for candle
-# test git
 # refactor code
 # better pluralizer
 # later: rrr "seed", willie "seed", lime "seed", etc option to switch poem framework
