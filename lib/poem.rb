@@ -9,23 +9,33 @@ require 'open-uri'
 
 class Poem
 
+
+Little
+
+                  __
+                / '_) 
+     _.----.,_ /  /
+   ,'            /
+ .'  (  ,   (   /
+/__.-'|_|----|_|'
+
 	def title_display
 		puts " "
 		puts " "
-		puts ".~'^'~._.~'^'~._.~'^'~._.~'^'~._.~'^'~._.~'^'~._.~'^'~._.~'^'~._.~'^'~._.~'^'~."
-		puts "      .___                            ___                                    "
-		puts "      /   \\   __.    ___  , _ , _    (   '   ___  ,   . .___  ,   .  ___      "
-		puts "      |,_,' .'   \\ .'   ; |' `|' `.   `-.   /   : |   | /   \\ |   | (   '     "
-		puts "      |     |    | |----' |   |   |      | |    | |   | |   ' |   |  `--.     "
-		puts "      /      .__.' `.___, /   '   / \\___.' `.__/| `._/| /     `._/| \\__.'     "
-		puts "                                                                            jlb"
-		puts "'~._.~'`'~._.~'`'~._.~'`'~._.~'`'~._.~'`'~._.~'`'~._.~'`'~._.~'`'~._.~'`'~._.~'"
+		puts ".~'^'~._.~'^'~._.~'^'~._.~'^'~._.~'^'~._.~'^'~._.~'^'~._.~'^'~._.~'^'~._.~'^'~._.~'^'~.    __"
+		puts "  .___                            ___                                                    / '_) "
+		puts "  /   \\   __.    ___  , _ , _    (   '   ___  ,   . .___  ,   .  ___         _.----.,_ /  /  "
+		puts "  |,_,' .'   \\ .'   ; |' `|' `.   `-.   /   : |   | /   \\ |   | (   '     ,'            /   "
+		puts "  |     |    | |----' |   |   |      | |    | |   | |   ' |   |  `--.     .'  (  ,   (   / "
+		puts "  /      .__.' `.___, /   '   / \\___.' `.__/| `._/| /     `._/| \\__.'  /__.-'|_|----|_|'   "
+		puts "                                                                            "
+		puts "'~._.~'`'~._.~'`'~._.~'`'~._.~'`'~._.~'`'~._.~'`'~._.~'`'~._.~'`'~._.~'`'~._.~'`'~._.~'"
 	end
 
 	def menu_display
 		puts " "
-		puts "  poem * ~ rhyme on ~ again ~ next ~ save * ~ slist * ~ rlist * ~ help ~ quit  "
-		puts "                       (Replace the * with your word!)"
+		puts "      poem * ~ rhyme on ~ again ~ next ~ save * ~ slist * ~ rlist * ~ help ~ quit  "
+		puts "                           (Replace the * with your word!)"
 		puts " "
 	end
 
@@ -98,6 +108,7 @@ class Poem
 				@rhyming = "true"
 				puts "\nRhyme is on!\n\n" 
 			else
+				@rhyming = "false"
 				puts "\nRhyme is off!\n\n"
 			end
 		when "menu" 

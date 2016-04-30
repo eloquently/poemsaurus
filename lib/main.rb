@@ -1,6 +1,8 @@
 # Jessica Mear
 # Spring 2016
-#
+
+# PoemSaurus
+
 # Purpose: Use an API to generate randomized semi-sensical poetry
 #
 # Related files: main.rb poem.rb, word_list.rb
