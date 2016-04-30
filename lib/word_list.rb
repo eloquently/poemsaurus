@@ -41,7 +41,7 @@ class WordList
 			rhymes << rhymes_array[i]["word"]
 		end
 		rhymes.shuffle!
-		return rhymes[0]
+		return rhymes
 	end
 
 	def self.make_neat_arrays(words)

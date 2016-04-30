@@ -12,20 +12,20 @@ class Poem
 	def title_display
 		puts " "
 		puts " "
-		puts ".~'^'~._.~'^'~._.~'^'~._.~'^'~._.~'^'~._.~'^'~._.~'^'~."
-		puts "          .___                                "
-		puts "          /   \\   __.    ___  , _ , _    __"
-		puts "          |,_-' .'   \\ .'   \` |' \`|' \`. (  `"
-		puts "          |     |    | |----' |   |   |  \`-. "
-		puts "          /      \\._.' \`.___, /   '   / ,__.'"
-		puts "                                                   jlb"
-		puts "'~._.~'`'~._.~'`'~._.~'`'~._.~'`'~._.~'`'~._.~'`'~._.~'"
+		puts ".~'^'~._.~'^'~._.~'^'~._.~'^'~._.~'^'~._.~'^'~._.~'^'~._.~'^'~._.~'^'~._.~'^'~."
+		puts "      .___                            ___                                    "
+		puts "      /   \\   __.    ___  , _ , _    (   '   ___  ,   . .___  ,   .  ___      "
+		puts "      |,_,' .'   \\ .'   ; |' `|' `.   `-.   /   : |   | /   \\ |   | (   '     "
+		puts "      |     |    | |----' |   |   |      | |    | |   | |   ' |   |  `--.     "
+		puts "      /      .__.' `.___, /   '   / \\___.' `.__/| `._/| /     `._/| \\__.'     "
+		puts "                                                                            jlb"
+		puts "'~._.~'`'~._.~'`'~._.~'`'~._.~'`'~._.~'`'~._.~'`'~._.~'`'~._.~'`'~._.~'`'~._.~'"
 	end
 
 	def menu_display
 		puts " "
-		puts " poem * ~ again ~ next ~ list * ~ save * ~ help ~ quit"
-		puts "           (Replace the * with your word!)"
+		puts "  poem * ~ rhyme on ~ again ~ next ~ save * ~ slist * ~ rlist * ~ help ~ quit  "
+		puts "                       (Replace the * with your word!)"
 		puts " "
 	end
 
@@ -44,11 +44,14 @@ class Poem
 		puts " "
 		puts "next             A new poem will be genrated using a synonym of the last seed word."
 		puts " "
-		puts "list <word>      Replace <word> with a word of your choice."
-		puts "                 A randomized list of synonyms will be generated."
-		puts " "
 		puts "save <filename>  Replace <fielname> with a filename of your choice."
 		puts "                 The last poem generated will be saved."
+		puts " "
+		puts "slist <word>     Replace <word> with a word of your choice."
+		puts "                 A randomized list of synonyms will be generated."
+		puts " "
+		puts "rlist <word>     Replace <word> with a word of your choice."
+		puts "                 A randomized list of rhymes will be generated."
 		puts " "
 		puts "quit             Quit out of the program."
 		puts " "
@@ -77,8 +80,10 @@ class Poem
 		case choice_array[0]
 		when "quit" 
 			self.credits_display
-		when "list" 
+		when "slist" 
 			self.list_synonyms(choice_array[1])
+		when "rlist" 
+			self.list_rhymes(choice_array[1])
 		when "poem" 
 			self.build_poem(choice_array[1])
 		when "again" 
@@ -130,7 +135,23 @@ class Poem
 			puts WordList.format_as_list(arrays)
 			puts ""
 		else 
-			puts "\nInvalid. Format required: list <any-word>\n\n"
+			puts "\nInvalid. Format required: slist <any-word>\n\n"
+		end
+	end
+
+	def list_rhymes(seed_word)
+		@saved_seed = seed_word
+		if @saved_seed.class == String
+			words = WordList.get_rhyme(@saved_seed) 
+			self.handle_nil if words == nil
+			words = WordList.get_rhyme(@saved_seed)
+			puts ""
+			puts "#{@saved_seed}"
+			puts ""
+			puts words
+			puts ""
+		else 
+			puts "\nInvalid. Format required: rlist <any-word>\n\n"
 		end
 	end
 
@@ -170,10 +191,13 @@ class Poem
 			handle_nil if @saved_seed == nil
 
 			words = WordList.search(@saved_seed) 
-			self.handle_nil if words == nil
-			words = WordList.search(@saved_seed)
+			if words == nil
+				self.handle_nil 
+				words = WordList.search(@saved_seed)
+			end
 			arrays = WordList.make_neat_arrays(words)
 			@list = arrays.join(" ").split(" ").shuffle
+			arrays[0].unshift(@saved_seed)
 			nouns = arrays[0].shuffle
 			adjs = arrays[1].shuffle
 			verbs = arrays[2].shuffle
@@ -184,7 +208,7 @@ class Poem
 				counter += 1
 			end
 			counter = 0
-			while adjs.count <= 3 
+			while adjs.count <= 4 
 				adjs << backup_adjs[counter]
 				counter += 1
 			end
@@ -204,17 +228,20 @@ class Poem
 		
 
 		if @rhyming == "true"
-			rhyme_word = WordList.get_rhyme(adjs[1])
-			last_word = rhyme_word			
+			rhyme_array = WordList.get_rhyme(adjs[1])
+			last_word1 = rhyme_array[0]
+			rhyme_array = WordList.get_rhyme(nouns[2])
+			last_word2 = rhyme_array[0]+"!"
 		else
-			last_word = nouns[3]
+			last_word1 = nouns[3]+"s"
+			last_word2 = nouns[5]+"!"
 		end 
 
 		rrr = [ "\n", @saved_seed, "\n", "\n",
 			nouns[0]+"s", linking_verbs_plural[0], adjs[0], "\n",
 			nouns[1]+"s", linking_verbs_plural[0], adjs[1], "\n",
 			nouns[2], linking_verbs_singular[0], adjs[3], "\n",
-			conjunctions[0], transition_array[0], last_word, 
+			conjunctions[0], transition_array[0], last_word1, 
 			"\n", "\n"
 		].join(" ").downcase
 
@@ -223,11 +250,11 @@ class Poem
 			#But ah, my foes, and oh, my friends—
    			#It gives a lovely light!
 
-		candle = [ "\n", @saved_seed, "\n", "\n",
+		candle = [ "\n", @saved_seed+" (first fig pattern)", "\n", "\n",
 			possessive_adjectives[0].capitalize, nouns[0], verbs[0]+"s", prepositions[0], indefinite_pronouns[0], nouns[1]+"s;", "\n",
    			pronouns[1].capitalize, helping_verbs[0], "not", verbs[1], "the" ,nouns[2]+";", "\n",
 			conjunctions[0].capitalize, interjections[0]+",", possessive_adjectives[0], nouns[3]+"s,", conjunctions[0], interjections[1]+",", possessive_adjectives[0], nouns[4]+"s-""\n",
-   			pronouns[1].capitalize, verbs[2]+"s", determiners[0], adjs[0], nouns[5]+"!",
+   			pronouns[1].capitalize, verbs[2]+"s", determiners[0], adjs[0], last_word2,
    			"\n", "\n"
    			].join(" ")
 
