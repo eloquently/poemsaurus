@@ -162,6 +162,8 @@ class Poem
 
 		conjunctions = "and but yet though".split(" ").shuffle
 
+		determiners = "the that some enough each every".split(" ").shuffle
+
 		
 
 		if @saved_seed != "jess"
@@ -177,7 +179,7 @@ class Poem
 			verbs = arrays[2].shuffle
 
 			counter = 0
-			while nouns.count <= 5 
+			while nouns.count <= 6 
 				nouns << backup_nouns[counter]
 				counter += 1
 			end
@@ -225,7 +227,7 @@ class Poem
 			possessive_adjectives[0].capitalize, nouns[0], verbs[0]+"s", prepositions[0], indefinite_pronouns[0], nouns[1]+"s;", "\n",
    			pronouns[1].capitalize, helping_verbs[0], "not", verbs[1], "the" ,nouns[2]+";", "\n",
 			conjunctions[0].capitalize, interjections[0]+",", possessive_adjectives[0], nouns[3]+"s,", conjunctions[0], interjections[1]+",", possessive_adjectives[0], nouns[4]+"s-""\n",
-   			pronouns[1].capitalize, verbs[2]+"s", "not", indefinite_pronouns[1], adjs[0], nouns[5]+"!",
+   			pronouns[1].capitalize, verbs[2]+"s", determiners[0], adjs[0], nouns[5]+"!",
    			"\n", "\n"
    			].join(" ")
 

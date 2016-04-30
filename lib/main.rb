@@ -24,6 +24,7 @@ end
 
 # write tests
 # write rhyme for candle
+# rhyme list
 # test git
 # refactor code
 # better pluralizer

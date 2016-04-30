@@ -33,7 +33,7 @@ class WordList
 	end
 
 	def self.get_rhyme(word)
-		url = "http://rhymebrain.com/talk?function=getRhymes&word=#{word}&maxResults=5"
+		url = "http://rhymebrain.com/talk?function=getRhymes&word=#{word}&maxResults=15"
 		rhymes = open(url).read
 		rhymes_array = JSON.parse(rhymes)
 		rhymes = []
