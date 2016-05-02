@@ -8,6 +8,12 @@
 # Related files: main.rb poem.rb, word_list.rb
 # APIs used: http://thesaurus.altervista.org/ & RhymeBrain.com
 
+# Future features might include:
+# better pluralizer
+# better rhymes
+# more poem frameworks; either user choice or random
+# expand list of default nouns, verbs, adjs (in word banks at the top of build_poem)
+# expand seed word list (in handle_nil)
 
 require_relative 'poem'
 
@@ -22,9 +28,5 @@ while true
 	user_choice = gets.chomp
 	p.interface(user_choice)
 	break if user_choice == "quit"
+	break if user_choice == "q"
 end
-
-# write tests
-# refactor code
-# better pluralizer
-# later: rrr "seed", willie "seed", lime "seed", etc option to switch poem framework
