@@ -1,4 +1,4 @@
-# Jessica Mear
+# Jess Mear
 # Spring 2016
 
 require_relative 'word_list'
