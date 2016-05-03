@@ -5,6 +5,10 @@ require_relative 'word_list'
 require 'json'
 require 'open-uri'
 
+
+# Eric: Minor quibble -- it might be better to call this class something else
+# I would expect a class called Poem to just contain data and logice about one
+# poem, not all the data/logic for the entire application
 class Poem
 
 	def title_display
@@ -55,8 +59,8 @@ class Poem
 		puts " "
 		puts "credits          Roll the credits!"
 		puts " "
-	end 
-	
+	end
+
 	def credits_display
 		puts " "
 		puts "                 Created by Jessica Mear"
@@ -66,37 +70,43 @@ class Poem
 		puts "             APIs used include RhymeBrain.com"
 		puts "                & thesaurus.altervista.org"
 		puts " "
-	end 
+	end
 
+# Eric: One way to make your code more DRY: create a method called display_text
+# and have that print "\n#{str}\n\n". That way, if you ever wanted to change the
+# spacing, you would only have to change it in one place.
+# More generally, this would also be a way to separate your display logic from
+# the rest of the program. If you wanted an SMS-interface, you wouldn't want all
+# the newlines.
 	def error_display
 		puts "\nSorry, that wont work. Try 'help' or 'menu' (without the quotes).\n\n"
 	end
 
 	def interface(user_choice)
-		user_choice.downcase! 
+		user_choice.downcase!
 		choice_array = user_choice.split(" ")
 		case choice_array[0]
 		when "quit", "q"
 			if choice_array[1] == nil
 				self.credits_display
-			else 
+			else
 				self.error_display
 			end
-		when "slist" 
+		when "slist"
 			self.list_synonyms(choice_array[1])
-		when "rlist" 
+		when "rlist"
 			self.list_rhymes(choice_array[1])
 		when "poem", "p"
 			self.build_poem(choice_array[1])
-		when "again" 
+		when "again"
 			self.randomize_again
-		when "next" 
+		when "next"
 			self.randomize_on_synonym
 		when "save"
 			self.save_poem(choice_array[1])
 		when "rhyme"
 			self.rhyme_flag(choice_array[1])
-		when "menu" 
+		when "menu"
 			self.menu_display
 		when "help"
 			self.help_display
@@ -105,15 +115,15 @@ class Poem
 		else
 			error_display
 		end
-		
+
 	end
 
 	def list_synonyms(seed_word)
 		@saved_seed = seed_word
 		if @saved_seed.class == String
-			words = WordList.search(@saved_seed) 
+			words = WordList.search(@saved_seed)
 			if words == nil
-				self.handle_nil 
+				self.handle_nil
 				words = WordList.search(@saved_seed)
 			end
 			arrays = WordList.make_neat_arrays(words)
@@ -122,7 +132,7 @@ class Poem
 			puts ""
 			puts WordList.format_as_list(arrays)
 			puts ""
-		else 
+		else
 			puts "\nInvalid. Format required: slist <any-word>\n\n"
 		end
 	end
@@ -130,9 +140,9 @@ class Poem
 	def list_rhymes(seed_word)
 		@saved_seed = seed_word
 		if @saved_seed.class == String
-			words = WordList.get_rhyme(@saved_seed) 
+			words = WordList.get_rhyme(@saved_seed)
 			if words == nil
-				self.handle_nil 
+				self.handle_nil
 				words = WordList.get_rhyme(@saved_seed)
 			end
 			puts ""
@@ -140,7 +150,7 @@ class Poem
 			puts ""
 			puts words
 			puts ""
-		else 
+		else
 			puts "\nInvalid. Format required: rlist <any-word>\n\n"
 		end
 	end
@@ -149,6 +159,9 @@ class Poem
 		@saved_seed = seed_word
 		#### WORD BANKS ####
 
+# Eric: the idiomatic ruby way to make an array of words is to use this syntax:
+# backup_adjs = %w(cunning precocious angry)
+# => ["cunning", "precocious", "angry"]
 		backup_adjs = "cunning precocious angry furious bad awful terrible horrible big huge gigantic giant clean spotless cold freezing crowded packed dirty filthy funny hilarious good wonderful fantastic excellent hot boiling hungry starving interesting fascinating old ancient pretty gorgeous scary terrifying small tiny surprising astounding tired exhausted ugly hideous red orange yellow green blue indigo violet purple pink shiny brave one eleven twelve forty-two cool awesome lovely dark silent fearful brave young old tangled".split(" ").shuffle
 
 		backup_nouns = "hat barber fear iris daisy paste play prelude women ewok baboon belief light lightsaber princess ringworm jedi attention bowtie fez converse sneakers buffet eyelash garbage paint sun star sparkle ewok knight ghost jedi padawan wookie firefly serenity shiny sky reaver vader mario peach nintendo zelda sword link past time pipe jump spin flip spirit wisdom courage forest green river song doctor nine eleven empty child dance tardis travel time-travel planet star sun sparkle disaster pony rainbow cloud penguin shining number rock doll lego computer keyboard ruby poem lyric verse".split(" ").shuffle
@@ -175,14 +188,14 @@ class Poem
 
 		determiners = "the that some enough each every".split(" ").shuffle
 
-		
+
 
 		if @saved_seed != "jess"
 			self.handle_nil if @saved_seed == nil
 
-			words = WordList.search(@saved_seed) 
+			words = WordList.search(@saved_seed)
 			if words == nil
-				self.handle_nil 
+				self.handle_nil
 				words = WordList.search(@saved_seed)
 			end
 			arrays = WordList.make_neat_arrays(words)
@@ -193,17 +206,18 @@ class Poem
 			verbs = arrays[2].shuffle
 
 			counter = 0
-			while nouns.count <= 6 
+			# nouns.concat(backup_nouns)
+			while nouns.count <= 6
 				nouns << backup_nouns[counter]
 				counter += 1
 			end
 			counter = 0
-			while adjs.count <= 4 
+			while adjs.count <= 4
 				adjs << backup_adjs[counter]
 				counter += 1
 			end
 			counter = 0
-			while verbs.count <= 3 
+			while verbs.count <= 3
 				verbs << backup_verbs[counter]
 				counter += 1
 			end
@@ -215,14 +229,15 @@ class Poem
 
 		fwchoice = ["rrr", "candle"].shuffle
 
-		
+
 		if fwchoice[0] == "rrr"
 			if @rhyming == "true"
 				rhyme_array = WordList.get_rhyme(adjs[1])
 				last_word1 = rhyme_array[0]
-			else 
+			else
 				last_word1 = nouns[3]+"s"
 			end
+# Eric: This should be with all the other word arrays above
 			transition_array = ["therefore", "so are", "everyone", "even if"]
 			transition_array.shuffle!
 
@@ -230,13 +245,13 @@ class Poem
 				nouns[0]+"s", linking_verbs_plural[0], adjs[0], "\n",
 				nouns[1]+"s", linking_verbs_plural[0], adjs[1], "\n",
 				nouns[2], linking_verbs_singular[0], adjs[3], "\n",
-				conjunctions[0], transition_array[0], last_word1, 
+				conjunctions[0], transition_array[0], last_word1,
 				"\n", "\n"].join(" ").downcase
 		elsif fwchoice[0] == "candle"
 			if @rhyming == "true"
 				rhyme_array = WordList.get_rhyme(nouns[2])
 				last_word2 = rhyme_array[0]+"!"
-			else 
+			else
 				last_word2 = nouns[5]+"!"
 			end
 			#My candle burns at both ends;
@@ -251,7 +266,7 @@ class Poem
 	   			pronouns[1].capitalize, verbs[2]+"s", determiners[0], adjs[0], last_word2,
 	   			"\n", "\n"
 	   			].join(" ")
-		end	
+		end
 
 		puts @poem
 
@@ -275,7 +290,7 @@ class Poem
 		if file_name.class == String
 	        File.write(file_name, @poem)
 	        puts "\nSaved #{file_name}!\n\n"
-		else 
+		else
 			puts "\nInvalid. Format required: save <filename>\n\n"
 		end
 	end
@@ -284,17 +299,36 @@ class Poem
 		@rhyming = choice
 		if @rhyming == "true" or @rhyming == "on"
 			@rhyming = "true"
-			puts "\nRhyme is on!\n\n" 
+			puts "\nRhyme is on!\n\n"
 		else
 			@rhyming = "false"
 			puts "\nRhyme is off!\n\n"
 		end
 	end
 
-	def handle_nil	 
+	def handle_nil
 		seeds = "scallywag rapscallion rogue knight ghost firefly serenity shiny sky peach sword link past time pipe jump spin flip spirit wisdom courage forest green river song doctor nine who empty child dance travel planet star sun sparkle disaster pony rainbow cloud penguin shining number rock doll computer keyboard ruby bravery".split(" ").shuffle
 		@list = seeds
 		@saved_seed = seeds[0]
 	end
 
 end
+
+# Eric: I think that this code would be improved by creating a Poem class that
+# holds data/logic for individual poems, and renaming this class to
+# PoemGenerator. The @saved_seed instance variable is a bit weird in this class,
+# and it would be nice to store already generated poems with their seed words.
+# It would also separate the "model" logic from the "controller" logic.
+# Rails will force you to separate your logic in this way.
+
+# Another thing about class/method design that I didn't talk about:
+# Generally you want your methods to either return data or manipulate data, not
+# both. As another rule of thumb, methods should be doing only one thing and
+# thus be fairly short. Your #build_poem method is very long and could definitely
+# be broken up more.
+
+# If I were writing this program, I would probably make the WordLists have an
+# instance variable array that tracks the list of words, and use WordList
+# objects instead of arrays to track them. This would let you do things like
+# create a WordList instance method #pick_one, so you wouldn't have to do
+# arr.shuffle ... arr[0] all the time in your program.

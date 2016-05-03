@@ -43,7 +43,7 @@ class WordList
 		# UNCOMMENT line 46 and replace peace with any string variable from the sample data above
 		# choices include: peace fire love hate run purple poem (uncomment your choice)
 
-		#words = fire 
+		#words = fire
 		return words
 	end
 
@@ -52,9 +52,9 @@ class WordList
 		rhymes = open(url).read
 		rhymes_array = JSON.parse(rhymes)
 		rhymes = []
-		if rhymes_array.count < 10 
+		if rhymes_array.count < 10
 			c = rhymes_array.count
-		else 
+		else
 			c = 10
 		end
 		c.times do |i|
@@ -82,6 +82,7 @@ class WordList
 			end
 		end
 
+# Eric: What are these four lines doing?
 		nouns = nouns_array.join("|").split"|"
 		adjs = adj_array.join("|").split"|"
 		verbs = verb_array.join("|").split"|"
@@ -91,7 +92,7 @@ class WordList
 		adjs = self.remove_results_with_spaces(adjs)
 		verbs = self.remove_results_with_spaces(verbs)
 		other = self.remove_results_with_spaces(other)
-
+# Eric: This might be better as a hash
 		arrays = [nouns, adjs, verbs, other]
 
 		return arrays
